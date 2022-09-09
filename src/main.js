@@ -5,15 +5,34 @@ import './style.css';
 // model.getForecast().then((result) => console.log(result));
 
 const view = (function () {
-  function renderWeather(name, dataObj) {
-    const title = document.querySelector('h1');
-    const content = document.querySelector('p');
+  const title = document.querySelector('h1');
+  const content = document.querySelectorAll('#current p');
+  const forecastDivs = document.querySelectorAll('.another-day');
+
+  function renderWeather(name, dataObj, fields = content) {
     title.innerText = name;
-    content.innerText = dataObj.day;
+    // get data values
+    const dataList = Object.values(dataObj);
+
+    fields.forEach((field, i) => {
+      field.innerText = dataList[i];
+    });
   }
-  return { renderWeather };
-}()
-);
+
+  function renderForecast(name, weatherList) {
+    // Add a diferent forecast on each div at the bottom of page
+    forecastDivs.forEach((div, i) => {
+      const divContent = div.children;
+      renderWeather(name, weatherList[i], [...divContent]);
+    });
+  }
+  return { renderWeather, renderForecast };
+}());
+
+
+
+
+
 
 const controller = (function () {
   const form = document.querySelector('form');
@@ -26,12 +45,21 @@ const controller = (function () {
       e.preventDefault();
       const cityName = inputCity.value;
       const weather = await model.getWeather(cityName).then((result) => result);
-      const forecast = await model.getForecast(cityName).then((result) => result);
+      const forecast = await model
+        .getForecast(cityName)
+        .then((result) => result);
       //
       view.renderWeather(cityName, weather);
+      view.renderForecast(cityName, forecast);
     }
   }
 
   buttonSubmit.addEventListener('click', lookupNewCity);
-}()
-);
+
+  // look for city when pressing enter/return
+  inputCity.onkeydown = (e) => {
+    if (e.keyCode === 13) {
+      lookupNewCity(e);
+    }
+  };
+}());

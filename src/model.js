@@ -8,16 +8,20 @@ const model = (function model() {
     target.description = original.weather[0].description;
     target.feels_like = original.main.feels_like;
     target.humidity = original.main.humidity;
-    target.coord = original.coord;
     target.wind_speed = original.wind.speed;
     target.cloudiness = original.clouds.all;
 
     return target;
   }
   async function callAPI(cityName = 'London', type = 'weather') {
+    let howMany = '';
+    // looks for only the five next days
+    if (type === 'forecast') {
+      howMany = '&cnt=5';
+    }
     // call the openWeather api
     const request = await fetch(
-      `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
+      `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}${howMany}&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
       { mode: 'cors' },
     );
     // if the request was successfull, return the data
@@ -39,13 +43,9 @@ const model = (function model() {
   }
 
   // Gets forecast for the next numDays days
-  async function getForecast(cityName, numDays = 5) {
+  async function getForecast(cityName) {
     const rawDataList = await callAPI(cityName, 'forecast')
-      .then((data) => {
-        // get the first five days
-        const fiveDays = data.list.slice(0, numDays);
-        return fiveDays;
-      });
+      .then((data) => data.list);
     // Extract selected data
     const dataList = rawDataList.map((data) => extractWeatherData(data));
 
