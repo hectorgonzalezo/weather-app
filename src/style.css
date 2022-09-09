@@ -1,0 +1,22 @@
+@import "./reset.css";
+
+
+
+:root {
+  --color-background: #f0f9ff;
+  --color-light: #e0f2fe;
+  --color-medium-light: #b4e1f6;
+  --color-medium-dark: #38bdf8;
+  --color-dark: #0c4a6e;
+  --color-complementary-light: rgb(228, 148, 148);
+  --color-complementary-dark: rgb(97, 21, 21);
+}
+
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
