@@ -1,1 +1,1 @@
-console.log('asdfa');
+import model from './model';
