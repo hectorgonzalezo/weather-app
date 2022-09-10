@@ -1,5 +1,6 @@
 import model from "./model";
 import "./style.css";
+import PubSub from "pubsub-js";``
 import { capitalize } from 'lodash';
 import { fahrenheitToCelsius, celsiusToFahrenheit } from './conversion';
 
@@ -9,8 +10,10 @@ const view = (function () {
   const content = document.querySelectorAll("#current *");
   const forecastDivs = document.querySelectorAll(".another-day");
 
-  function renderWeather(name, dataObj, fields = content, unit ='fahrenheit') {
-    title.innerText = name;
+  function renderWeather(name, dataObj, fields = content) {
+    if(dataObj.name){// Add name is there is one
+    title.innerText = dataObj.name;
+    }
     // get data values
     fields.forEach((field) => {
         const fieldType = field.classList.value;
@@ -57,17 +60,22 @@ const controller = (function () {
   const toggleCF = document.querySelector("header input[type=checkbox");
   let unitType = 'fahrenheit';
 
+  async function getDataFromModel(cityName, coordinates=[]){
+    const weather = await model.getWeather(cityName, coordinates).then((result) => result);
+      const forecast = await model
+        .getForecast(cityName, coordinates)
+        .then((result) => result);
+
+        view.renderWeather(cityName, weather);
+        view.renderForecast(cityName, forecast);
+  }
+
   // After pressing submit, look weather and forecast of new city
-  async function lookupNewCity(e) {
+  function lookupNewCity(e) {
     if (form.checkValidity()) {
       e.preventDefault();
       const cityName = capitalize(inputCity.value);
-      const weather = await model.getWeather(cityName).then((result) => result);
-      const forecast = await model
-        .getForecast(cityName)
-        .then((result) => result);
-      view.renderWeather(cityName, weather);
-      view.renderForecast(cityName, forecast);
+     getDataFromModel(cityName);
     }
   }
 
@@ -91,4 +99,6 @@ const controller = (function () {
       lookupNewCity(e);
     }
   };
+
+  PubSub.subscribe('location-data-acquired', (msg, coordinates) => getDataFromModel('', coordinates))
 })();
