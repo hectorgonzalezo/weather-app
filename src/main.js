@@ -1,13 +1,13 @@
-import model from './model';
-import './style.css';
+import model from "./model";
+import "./style.css";
 
 // model.getWeather().then((result) => console.log(result));
 // model.getForecast().then((result) => console.log(result));
 
 const view = (function () {
-  const title = document.querySelector('h1');
-  const content = document.querySelectorAll('#current p');
-  const forecastDivs = document.querySelectorAll('.another-day');
+  const title = document.querySelector("h1");
+  const content = document.querySelectorAll("#current p");
+  const forecastDivs = document.querySelectorAll(".another-day");
 
   function renderWeather(name, dataObj, fields = content) {
     title.innerText = name;
@@ -27,17 +27,12 @@ const view = (function () {
     });
   }
   return { renderWeather, renderForecast };
-}());
-
-
-
-
-
+})();
 
 const controller = (function () {
-  const form = document.querySelector('form');
-  const inputCity = document.querySelector('#input-city');
-  const buttonSubmit = document.querySelector('form input[type=submit]');
+  const form = document.querySelector("form");
+  const inputCity = document.querySelector("#input-city");
+  const buttonSubmit = document.querySelector("form input[type=submit]");
 
   // After pressing submit, look weather and forecast of new city
   async function lookupNewCity(e) {
@@ -54,7 +49,7 @@ const controller = (function () {
     }
   }
 
-  buttonSubmit.addEventListener('click', lookupNewCity);
+  buttonSubmit.addEventListener("click", lookupNewCity);
 
   // look for city when pressing enter/return
   inputCity.onkeydown = (e) => {
@@ -62,4 +57,4 @@ const controller = (function () {
       lookupNewCity(e);
     }
   };
-}());
+})();
