@@ -1,21 +1,19 @@
 import model from "./model";
 import "./style.css";
 
-// model.getWeather().then((result) => console.log(result));
-// model.getForecast().then((result) => console.log(result));
 
 const view = (function () {
   const title = document.querySelector("h1");
-  const content = document.querySelectorAll("#current p");
+  const content = document.querySelectorAll("#current *");
   const forecastDivs = document.querySelectorAll(".another-day");
 
   function renderWeather(name, dataObj, fields = content) {
     title.innerText = name;
     // get data values
-    const dataList = Object.values(dataObj);
 
-    fields.forEach((field, i) => {
-      field.innerText = dataList[i];
+    fields.forEach((field) => {
+        const fieldType = field.classList.value;
+        field.innerText = dataObj[fieldType];
     });
   }
 
@@ -28,6 +26,11 @@ const view = (function () {
   }
   return { renderWeather, renderForecast };
 })();
+
+
+
+
+
 
 const controller = (function () {
   const form = document.querySelector("form");

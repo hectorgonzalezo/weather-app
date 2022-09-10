@@ -10,9 +10,9 @@ class WeatherData {
     target.day = format(this.unixToDate(originalJSON.dt), "E, d, MMMM, y");
     target.temp = originalJSON.main.temp;
     target.description = originalJSON.weather[0].description;
-    target.feels_like = originalJSON.main.feels_like;
+    target.feelsLike = originalJSON.main.feels_like;
     target.humidity = originalJSON.main.humidity;
-    target.wind_speed = originalJSON.wind.speed;
+    target.windSpeed = originalJSON.wind.speed;
     target.cloudiness = originalJSON.clouds.all;
 
     return target;
