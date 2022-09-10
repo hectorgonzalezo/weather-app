@@ -7,11 +7,13 @@
 
   body main {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-row: 2fr repeat(5, 1fr);
+    grid-template-columns: 1fr;
+    grid-row: 2fr 0.5fr 1fr;
+    justify-items: center;
     grid-template-areas:
-      "current ..."
-      "forecast forecast";
+      "current"
+      "gif"
+      "forecast";
   }
 
   body #forecast {
@@ -19,6 +21,14 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, 1fr);
+  }
+
+  body #current {
+    justify-self: stretch;
+  }
+
+  body .another-day {
+    width: 70%;
   }
 }
 
@@ -166,13 +176,38 @@ main {
   grid-template-columns: 1fr 1fr;
   grid-row: 5fr 1fr;
   grid-template-areas:
-    "current ..."
+    "current gif"
     "forecast forecast";
 }
 
 #current {
   grid-area: current;
   font-size: 1.5rem;
+  
+}
+
+#current.loading {
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+}
+
+#gif {
+    grid-area: gif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gif > img{
+    --dimension: 300px;
+    width: var(--dimension);
+    height: var(--dimension);
 }
 
 #forecast {
@@ -244,11 +279,13 @@ main {
   font-size: 2rem;
 }
 
-.temp.active::after {
+.temp.active::after,
+.feelsLike.active::after {
   content: " °F";
 }
 
-.temp.active.celsius::after {
+.temp.active.celsius::after,
+.feelsLike.active.celsius::after {
   content: " °C";
 }
 
@@ -272,12 +309,19 @@ main {
   content: "Humidity: ";
 }
 
+.humidity.active::after {
+  content: "%";
+}
+
 .windSpeed {
   grid-area: windSpeed;
 }
 
 .windSpeed.active::before {
   content: "Wind speed: ";
+}
+.windSpeed.active::after {
+  content: " m/s";
 }
 
 .cloudiness {
@@ -286,6 +330,10 @@ main {
 
 .cloudiness.active::before {
   content: "Cloudiness: ";
+}
+
+.cloudiness.active::after {
+  content: "%";
 }
 
 .another-day {
@@ -310,3 +358,4 @@ footer {
 #github-logo {
   height: 30px;
 }
+

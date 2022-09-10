@@ -43,16 +43,17 @@ class WeatherData {
 
 const model = (function model() {
   // You can use cityName or an array of coordinates [latitude, longitude] to search
-  async function callAPI(cityName = "London", type = "weather", coords = []) {
+  async function callWeatherAPI(cityName = "London", type = "weather", coords = []) {
     let request;
-    if (coords.length !== 2) {// If there are no coordinates, look for cityName
-        request = await fetch(
-            `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
-            { mode: "cors" }
-          );
-      
-    } else { // Otherwise, look for coordinates
-        const latitude = coords[0];
+    if (coords.length !== 2) {
+      // If there are no coordinates, look for cityName
+      request = await fetch(
+        `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
+        { mode: "cors" }
+      );
+    } else {
+      // Otherwise, look for coordinates
+      const latitude = coords[0];
       const longitude = coords[1];
       request = await fetch(
         `https://api.openweathermap.org/data/2.5/${type}?lat=${latitude}&lon=${longitude}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
@@ -71,7 +72,7 @@ const model = (function model() {
   // Extracts data from getWeather() for every argument
   async function getWeather(cityName, coords) {
     // get all a selection of values and store them in dataObject
-    const dataObject = await callAPI(cityName, "weather", coords).then((data) =>
+    const dataObject = await callWeatherAPI(cityName, "weather", coords).then((data) =>
       WeatherData.formatWeather(data)
     );
 
@@ -80,7 +81,7 @@ const model = (function model() {
 
   // Gets forecast for the next numDays days
   async function getForecast(cityName, coords) {
-    const rawDataList = await callAPI(cityName, "forecast", coords).then(
+    const rawDataList = await callWeatherAPI(cityName, "forecast", coords).then(
       (data) => data.list
     );
     // Extract selected data
@@ -89,10 +90,25 @@ const model = (function model() {
     return dataList;
   }
 
-  return { getWeather, getForecast };
+
+  async function getGIF(query) {
+    const imageURL = await fetch(
+      `https://api.giphy.com/v1/gifs/translate?api_key=aup9fsKJyXywzXoxQ071oFLBJW7ol2ld&s=${query}&weirdness=1`,
+      { mode: "cors" }
+    )
+      .then((response) => response.json())
+      .then((response) => response.data.images.original.url)
+      // if no image is found
+      .catch(() => getGIF('error'));
+    return imageURL
+  }
+
+  return { getWeather, getForecast, getGIF};
 })();
 
-(function onLoad() {
+
+
+(function getUserLocationOnLoad() {
   function getUserLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -107,7 +123,11 @@ const model = (function model() {
       );
     }
   }
+  // On window load, get user location
   window.addEventListener("load", getUserLocation);
 })();
 
 export default model;
+
+
+
