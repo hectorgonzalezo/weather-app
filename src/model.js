@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { round } from 'lodash';
 
 class WeatherData {
   static today = new Date(Date.now());
@@ -8,9 +9,9 @@ class WeatherData {
     const target = {};
     // Selection of values
     target.day = format(this.unixToDate(originalJSON.dt), "E, d, MMMM, y");
-    target.temp = originalJSON.main.temp;
+    target.temp = round(originalJSON.main.temp);
     target.description = originalJSON.weather[0].description;
-    target.feelsLike = originalJSON.main.feels_like;
+    target.feelsLike = round(originalJSON.main.feels_like);
     target.humidity = originalJSON.main.humidity;
     target.windSpeed = originalJSON.wind.speed;
     target.cloudiness = originalJSON.clouds.all;
@@ -44,7 +45,7 @@ const model = (function model() {
   async function callAPI(cityName = "London", type = "weather") {
     // call the openWeather api
     const request = await fetch(
-      `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
+      `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
       { mode: "cors" }
     );
     // if the request was successfull, return the data
