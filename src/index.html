@@ -1,71 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <title>
-        <%= htmlWebpackPlugin.options.title %>
-    </title>
-</head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
 
-<body>
+  <body>
     <header>
-        <form>
-            <input type="text" id="input-city" minlength="2" placeholder="City name" required>
-            <input type="submit">
-        </form>
-        <div class="toggle-button-cover">
-            <div class="button-cover">
-              <div class="button r" id="button-1">
-                <input type="checkbox" class="checkbox" />
-                <div class="knobs"></div>
-                <div class="layer"></div>
-              </div>
-            </div>
+      <form>
+        <input
+          type="text"
+          id="input-city"
+          minlength="2"
+          placeholder="City name"
+          required
+        />
+        <input type="submit" />
+      </form>
+      <div class="toggle-button-cover">
+        <div class="button-cover">
+          <div class="button r" id="button-1">
+            <input type="checkbox" class="checkbox" />
+            <div class="knobs"></div>
+            <div class="layer"></div>
           </div>
+        </div>
+      </div>
     </header>
     <main>
-        <div id="current">
-            <h2 class="description"></h2>
-            <h1 class="name"></h1>
-            <h3 class="day"></h3>
-            <h3 class="temp"></h3>
-            <p class="feelsLike"></p>
-            <p class="humidity"></p>
-            <p class="windSpeed"></p>
-            <p class="cloudiness"></p>
+      <div id="current">
+        <h2 class="description"></h2>
+        <h1 class="name"></h1>
+        <h3 class="day"></h3>
+        <h3 class="temp"></h3>
+        <p class="feelsLike"></p>
+        <p class="humidity"></p>
+        <p class="windSpeed"></p>
+        <p class="cloudiness"></p>
+      </div>
+      <div id="gif"></div>
+      <div id="forecast">
+        <div class="another-day">
+          <h3 class="day"></h3>
+          <h2 class="description"></h2>
+          <h3 class="temp"></h3>
         </div>
-        <div id="gif">
+        <div class="another-day">
+          <h3 class="day"></h3>
+          <h2 class="description"></h2>
+          <h3 class="temp"></h3>
         </div>
-        <div id="forecast">
-            <div class="another-day">
-                <h3 class="day"></h3>
-                <h2 class="description"></h2>
-                <h3 class="temp"></h3>
-            </div>
-            <div class="another-day">
-                <h3 class="day"></h3>
-                <h2 class="description"></h2>
-                <h3 class="temp"></h3>
-            </div>
-            <div class="another-day">
-                <h3 class="day"></h3>
-                <h2 class="description"></h2>
-                <h3 class="temp"></h3>
-            </div>
-            <div class="another-day">
-                <h3 class="day"></h3>
-                <h2 class="description"></h2>
-                <h3 class="temp"></h3>
-            </div>
+        <div class="another-day">
+          <h3 class="day"></h3>
+          <h2 class="description"></h2>
+          <h3 class="temp"></h3>
         </div>
+        <div class="another-day">
+          <h3 class="day"></h3>
+          <h2 class="description"></h2>
+          <h3 class="temp"></h3>
+        </div>
+      </div>
     </main>
     <footer>
-        <h2>Héctor González Orozco</h2>
-        <a href="https://github.com/hectorgonzalezo/todo-list">
-            <img alt="github logo" id="github-logo" src=<%=require("./assets/github-logo.png")%> >
-        </a>
+      <h2>Héctor González Orozco</h2>
+      <a href="https://github.com/hectorgonzalezo/todo-list">
+        <img alt="github logo" id="github-logo"
+        src=<%=require("./assets/github-logo.png")%> >
+      </a>
     </footer>
-</body>
-
+  </body>
 </html>

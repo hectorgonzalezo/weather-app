@@ -8,7 +8,7 @@ const view = (function () {
   const title = document.querySelector("h1");
   const content = document.querySelectorAll("#current *");
   const forecastDivs = document.querySelectorAll(".another-day");
-  const gif = document.querySelector('#gif')
+  const gif = document.querySelector("#gif");
 
   function renderWeather(dataObj, fields = content) {
     if (dataObj.name) {
@@ -17,13 +17,14 @@ const view = (function () {
     }
     // get data values
     fields.forEach((field) => {
-        field.classList.remove("active");
-        if (field.classList.contains('celsius')){// convert to celsius if selected
-            field.innerText = fahrenheitToCelsius(dataObj.temp);
-        } else {
-      const fieldType = field.classList.value;
-      field.innerText = dataObj[fieldType];
-        }
+      field.classList.remove("active");
+      if (field.classList.contains("celsius")) {
+        // convert to celsius if selected
+        field.innerText = fahrenheitToCelsius(dataObj.temp);
+      } else {
+        const fieldType = field.classList.value;
+        field.innerText = dataObj[fieldType];
+      }
       field.classList.add("active");
     });
   }
@@ -54,13 +55,13 @@ const view = (function () {
     }
   }
 
-  function changeGIF(gifUrl){
-    gif.firstChild.remove()
-    const newIMG = document.createElement('img')
+  function changeGIF(gifUrl) {
+    gif.firstChild.remove();
+    const newIMG = document.createElement("img");
     newIMG.src = gifUrl;
-    gif.append(newIMG)
+    gif.append(newIMG);
   }
-  return { renderWeather, renderForecast, changeUnitTo, changeGIF};
+  return { renderWeather, renderForecast, changeUnitTo, changeGIF };
 })();
 
 const controller = (function () {
@@ -78,11 +79,11 @@ const controller = (function () {
       .getForecast(cityName, coordinates)
       .then((result) => result);
     const newGIF = await model.getGIF(weather.description);
-    console.log(weather)
+    const newIcon = await model.getIcon();
 
     view.renderWeather(weather);
     view.renderForecast(forecast);
-    view.changeGIF(newGIF)
+    view.changeGIF(newGIF);
   }
 
   // After pressing submit, look weather and forecast of new city

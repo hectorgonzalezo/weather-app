@@ -1,6 +1,6 @@
+import "./userLocation";
 import { format } from "date-fns";
 import { round } from "lodash";
-import PubSub from "pubsub-js";
 
 class WeatherData {
   static today = new Date();
@@ -43,7 +43,11 @@ class WeatherData {
 
 const model = (function model() {
   // You can use cityName or an array of coordinates [latitude, longitude] to search
-  async function callWeatherAPI(cityName = "London", type = "weather", coords = []) {
+  async function callWeatherAPI(
+    cityName = "London",
+    type = "weather",
+    coords = []
+  ) {
     let request;
     if (coords.length !== 2) {
       // If there are no coordinates, look for cityName
@@ -72,9 +76,11 @@ const model = (function model() {
   // Extracts data from getWeather() for every argument
   async function getWeather(cityName, coords) {
     // get all a selection of values and store them in dataObject
-    const dataObject = await callWeatherAPI(cityName, "weather", coords).then((data) =>
-      WeatherData.formatWeather(data)
+    const dataObject = await callWeatherAPI(cityName, "weather", coords).then(
+      (data) => WeatherData.formatWeather(data)
     );
+
+    const icon = await getIcon(dataObject.description);
 
     return dataObject;
   }
@@ -90,7 +96,6 @@ const model = (function model() {
     return dataList;
   }
 
-
   async function getGIF(query) {
     const imageURL = await fetch(
       `https://api.giphy.com/v1/gifs/translate?api_key=aup9fsKJyXywzXoxQ071oFLBJW7ol2ld&s=${query}&weirdness=1`,
@@ -99,35 +104,21 @@ const model = (function model() {
       .then((response) => response.json())
       .then((response) => response.data.images.original.url)
       // if no image is found
-      .catch(() => getGIF('error'));
-    return imageURL
+      .catch(() => getGIF("error"));
+    return imageURL;
   }
 
-  return { getWeather, getForecast, getGIF};
-})();
+  async function getIcon(query) {
+    const formattedQuery = query.replace(/\s/, "-");
+    const iconURL = await fetch(
+      `http://api.thenounproject.com/collection/${formattedQuery}`,
+      { method: "GET", mode: "cors" }
+    ).then((response) => console.log(response));
 
-
-
-(function getUserLocationOnLoad() {
-  function getUserLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        // if you get it successfully,
-        (locationData) => {
-          const coordinates = [
-            locationData.coords.latitude,
-            locationData.coords.longitude,
-          ];
-          PubSub.publish("location-data-acquired", coordinates);
-        }
-      );
-    }
+    return iconURL;
   }
-  // On window load, get user location
-  window.addEventListener("load", getUserLocation);
+
+  return { getWeather, getForecast, getGIF, getIcon };
 })();
 
 export default model;
-
-
-

@@ -1,6 +1,8 @@
 @import "./reset.css";
 
-@media (max-width: 800px) {
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;600&display=swap");
+
+@media (max-width: 850px) {
   :root body {
     height: 150vh;
   }
@@ -8,23 +10,24 @@
   body main {
     display: grid;
     grid-template-columns: 1fr;
-    grid-row: 2fr 0.5fr 1fr;
+    grid-row: 2fr 0.2fr 1fr;
     justify-items: center;
+    align-items: center;
     grid-template-areas:
       "current"
       "gif"
       "forecast";
   }
 
-  body #forecast {
-    grid-area: forecast;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr);
+  #current {
+    width: auto;
   }
 
-  body #current {
-    justify-self: stretch;
+  body #forecast {
+    grid-area: forecast;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
   }
 
   body .another-day {
@@ -38,10 +41,11 @@
   --color-medium-light: #a1a1aa;
   --color-medium-dark: #52525b;
   --color-dark: #3f3f46;
-  --color-complementary1-light: rgb(124, 141, 226);
-  --color-complementary1-dark: rgb(31, 26, 131);
-  --color-complementary2-light: rgb(235, 151, 81);
+  --color-complementary1-light: rgb(162, 242, 144);
+  --color-complementary1-dark: rgb(14, 60, 13);
+  --color-complementary2-light: rgb(245, 176, 118);
   --color-complementary2-dark: rgb(131, 63, 14);
+  font-family: "Maven Pro", sans-serif;
 }
 
 /* * {
@@ -178,53 +182,55 @@ main {
   grid-template-areas:
     "current gif"
     "forecast forecast";
+  justify-items: center;
+  align-items: center;
 }
 
 #current {
   grid-area: current;
   font-size: 1.5rem;
-  
 }
 
 #current.loading {
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
-    background-color: #f6f7f8;
-    background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
-    background-size: 800px 104px;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background-color: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+  background-size: 800px 104px;
 }
 
 #gif {
-    grid-area: gif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  grid-area: gif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#gif > img{
-    --dimension: 300px;
-    width: var(--dimension);
-    height: var(--dimension);
+#gif > img {
+  --dimension: 300px;
+  width: var(--dimension);
+  height: var(--dimension);
 }
 
 #forecast {
   grid-area: forecast;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 1fr;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  width: 100%;
 }
 
 #current,
 .another-day {
   display: grid;
-
   align-items: center;
   justify-items: center;
-  margin: 20px;
-  padding: 20px;
+  margin: 15px;
+  padding: 15px;
+  gap: 10px;
   background-color: var(--color-medium-dark);
   color: var(--color-light);
   border-radius: 2rem;
@@ -242,6 +248,7 @@ main {
     "temperat humidity"
     "temperat windSpeed"
     "temperat cloudiness";
+  font-size: 1.3rem;
 }
 
 .another-day {
@@ -251,11 +258,14 @@ main {
     "date     date"
     "descript descript"
     "temperat temperat";
+  min-width: 160px;
 }
 
 .description {
   grid-area: descript;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--color-complementary1-light);
 }
 
 #current .description {
@@ -264,16 +274,25 @@ main {
 
 .name {
   grid-area: cityName;
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .day {
   grid-area: date;
+  color: var(--color-complementary2-light);
+  font-size: 1.1rem;
+}
+
+#current .day {
+  font-size: 2.2rem;
 }
 
 .temp {
   grid-area: temperat;
   font-size: 3rem;
+  font-weight: bolder;
+  color: var(--color-complementary2-light);
 }
 
 .temp.active::after,
@@ -355,4 +374,3 @@ footer {
 #github-logo {
   height: 30px;
 }
-
