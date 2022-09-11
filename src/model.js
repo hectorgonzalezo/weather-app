@@ -3,13 +3,13 @@ import { round } from "lodash";
 import PubSub from "pubsub-js";
 
 class WeatherData {
-  static today = new Date(Date.now());
+  static today = new Date();
 
   // Gets JSON from API and gives it a format suitable to be used by view
   static formatWeather(originalJSON) {
     const target = {};
     // Selection of values
-    target.day = format(this.unixToDate(originalJSON.dt), "E, d, MMMM, y");
+    target.day = format(this.unixToDate(originalJSON.dt), "E, d MMMM");
     target.temp = round(originalJSON.main.temp);
     target.description = originalJSON.weather[0].description;
     target.feelsLike = round(originalJSON.main.feels_like);
@@ -26,9 +26,9 @@ class WeatherData {
     const fiveDaysList = originalJSONList.filter((data) => {
       const dataDay = this.unixToDate(data.dt);
       // Filter if it's another instance of today's weather
-      // and get only the midday forecast for each day at 11 AM
+      // and get only the midday forecast for each day at 3 PM.
       return (
-        dataDay.getDay() !== this.today.getDay() && dataDay.getHours() === 11
+        dataDay.getDay() !== this.today.getDay() && dataDay.getHours() === 20
       );
     });
     const result = fiveDaysList.map((dayData) => this.formatWeather(dayData));

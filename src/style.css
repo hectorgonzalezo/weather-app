@@ -213,7 +213,7 @@ main {
 #forecast {
   grid-area: forecast;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
 }
 
@@ -246,14 +246,11 @@ main {
 
 .another-day {
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: 1fr 1fr 2fr;
   grid-template-areas:
     "date     date"
     "descript descript"
-    "temperat feelsLike"
-    "temperat humidity"
-    "temperat windSpeed"
-    "temperat cloudiness";
+    "temperat temperat";
 }
 
 .description {
@@ -276,7 +273,7 @@ main {
 
 .temp {
   grid-area: temperat;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 
 .temp.active::after,

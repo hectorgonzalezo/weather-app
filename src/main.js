@@ -18,8 +18,12 @@ const view = (function () {
     // get data values
     fields.forEach((field) => {
         field.classList.remove("active");
+        if (field.classList.contains('celsius')){// convert to celsius if selected
+            field.innerText = fahrenheitToCelsius(dataObj.temp);
+        } else {
       const fieldType = field.classList.value;
       field.innerText = dataObj[fieldType];
+        }
       field.classList.add("active");
     });
   }
