@@ -1,3 +1,4 @@
+import PubSub from "pubsub-js";
 import { fahrenheitToCelsius, celsiusToFahrenheit } from "./conversion";
 
 const view = (function () {
@@ -6,6 +7,7 @@ const view = (function () {
   const forecastDivs = document.querySelectorAll(".another-day");
   const gif = document.querySelector("#gif");
   const invalidDisplay = document.querySelector("span");
+  const displayers = document.querySelectorAll('#current, .another-day')
 
   function renderWeather(dataObj, fields = content) {
     if (dataObj.name) {
@@ -64,6 +66,29 @@ const view = (function () {
     gif.append(newIMG);
   }
 
+  // A displayers is one of (#current || .another-day)
+  function showDisplayersLoading(){
+    // show or hide toggle animation
+    displayers.forEach((displayer) => {
+        // remove everything from field inside displayer
+        [...displayer.children].forEach((field) => {
+            field.innerText='';
+            field.classList.remove('active');
+        });
+        displayer.classList.add('loading');
+        displayer.classList.add('active')
+    }
+    );
+
+}
+
+  function hideDisplayersLoading(){
+    // show or hide toggle animation
+    displayers.forEach((displayer) => {
+        displayer.classList.remove('loading')
+    })
+  }
+
   function showInvalidMessage() {
     invalidDisplay.classList.add("invalid");
   }
@@ -80,6 +105,9 @@ const view = (function () {
   function removeNoCityMessage() {
     invalidDisplay.classList.remove("no-city");
   }
+
+  PubSub.subscribe('lookup-started', showDisplayersLoading);
+  PubSub.subscribe('lookup-finished', hideDisplayersLoading)
   return {
     renderWeather,
     renderForecast,

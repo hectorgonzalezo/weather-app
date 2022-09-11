@@ -23,14 +23,16 @@ const controller = (function () {
     view.renderWeather(weather);
     view.renderForecast(forecast);
     view.changeGIF(newGIF);
+    PubSub.publish('lookup-finished');
   }
 
   // After pressing submit, look weather and forecast of new city
   function lookupNewCity(e) {
     if (form.checkValidity()) {
-      e.preventDefault();
+        e.preventDefault();
       const cityName = capitalize(inputCity.value);
       getDataFromModel(cityName);
+      PubSub.publish('lookup-started')
     }
   }
 

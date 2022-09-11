@@ -89,7 +89,7 @@ header form {
   color: var(--color-light);
   font-size: 2rem;
   width: 200px;
-  transition: all 1s;
+  
   padding: 3px;
   background-image: url('./assets/search-icon.svg');
   background-position: 2px 5px;
@@ -102,6 +102,7 @@ header form {
 #input-city:not(:placeholder-shown) {
   width: 450px;
   border-bottom: solid var(--color-complementary1-light) 3px;
+  transition: all 1s;
 }
 
 #input-city.invalid:not(:placeholder-shown) {
@@ -129,12 +130,12 @@ span{
   right: 0px;
   top: 0px;
   font-size: 2rem;
-  transition: all 1s;
 }
 
 #clear:hover{
     opacity: 1;
     color: var(--color-complementary2-light);
+    transition: all 1s;
 }
 
 #input-city:hover:not(:placeholder-shown) ~ #clear,
@@ -303,16 +304,6 @@ main {
   font-size: 1.3rem;
 }
 
-#current.loading {
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeHolderShimmer;
-  animation-timing-function: linear;
-  background-color: #f6f7f8;
-  background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
-  background-size: 800px 104px;
-}
 
 #gif {
   grid-area: gif;
@@ -343,10 +334,25 @@ main {
   margin: 15px;
   padding: 15px;
   gap: 10px;
-  background-color: var(--color-medium-dark);
   color: var(--color-light);
   border-radius: 2rem;
-  box-shadow: 2px 2px 5px var(--color-complementary1-dark);
+}
+
+#current.active , 
+.another-day.active{
+  background-color: var(--color-medium-dark);
+}
+
+
+#current.loading,
+.another-day.loading {
+    background: linear-gradient(to right, var(--color-light) 8%, var(--color-medium-dark) 18%, var(--color-dark) 33%);
+    background-size: 800px 104px;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
 }
 
 .another-day {
@@ -473,3 +479,13 @@ footer {
 #github-logo {
   height: 30px;
 }
+
+
+@keyframes placeHolderShimmer {
+    0% {
+      background-position: -800px 0
+    }
+    100% {
+      background-position: 800px 0
+    }
+  }
