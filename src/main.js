@@ -56,7 +56,9 @@ const view = (function () {
   }
 
   function changeGIF(gifUrl) {
-    gif.firstChild.remove();
+    if (gif.firstChild) {
+      gif.firstChild.remove();
+    }
     const newIMG = document.createElement("img");
     newIMG.src = gifUrl;
     gif.append(newIMG);
@@ -67,7 +69,7 @@ const view = (function () {
 const controller = (function () {
   const form = document.querySelector("form");
   const inputCity = document.querySelector("#input-city");
-  const buttonSubmit = document.querySelector("form input[type=submit]");
+  const buttonSubmit = document.querySelector("form button");
   const toggleCF = document.querySelector("header input[type=checkbox");
   let unitType = "fahrenheit";
 
@@ -79,7 +81,6 @@ const controller = (function () {
       .getForecast(cityName, coordinates)
       .then((result) => result);
     const newGIF = await model.getGIF(weather.description);
-    const newIcon = await model.getIcon();
 
     view.renderWeather(weather);
     view.renderForecast(forecast);

@@ -80,8 +80,6 @@ const model = (function model() {
       (data) => WeatherData.formatWeather(data)
     );
 
-    const icon = await getIcon(dataObject.description);
-
     return dataObject;
   }
 
@@ -108,17 +106,7 @@ const model = (function model() {
     return imageURL;
   }
 
-  async function getIcon(query) {
-    const formattedQuery = query.replace(/\s/, "-");
-    const iconURL = await fetch(
-      `http://api.thenounproject.com/collection/${formattedQuery}`,
-      { method: "GET", mode: "cors" }
-    ).then((response) => console.log(response));
-
-    return iconURL;
-  }
-
-  return { getWeather, getForecast, getGIF, getIcon };
+  return { getWeather, getForecast, getGIF };
 })();
 
 export default model;
