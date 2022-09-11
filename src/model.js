@@ -1,6 +1,7 @@
 import "./userLocation";
 import { format } from "date-fns";
 import { round } from "lodash";
+import view from "./view";
 
 class WeatherData {
   static today = new Date();
@@ -68,8 +69,12 @@ const model = (function model() {
     // otherwise display error message
     if (request.ok) {
       const data = await request.json();
+      console.log(data);
       return data;
     }
+
+    // If it didn't find such city
+    view.showNoCityMessage();
     throw new Error("City not found");
   }
 
@@ -109,4 +114,4 @@ const model = (function model() {
   return { getWeather, getForecast, getGIF };
 })();
 
-export default model;
+export { view, model };

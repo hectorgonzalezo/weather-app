@@ -7,6 +7,15 @@
     height: 150vh;
   }
 
+  body #input-city{
+    width: 200px;
+  }
+
+  body #input-city:hover,
+body #input-city:not(:placeholder-shown) {
+  width: 200px;
+}
+
   body main {
     display: grid;
     grid-template-columns: 1fr;
@@ -62,20 +71,19 @@ body {
 
 header {
   background-color: var(--color-background);
-  display: flex;
-  justify-content: center;
+  display: grid;
+  justify-items: center;
   align-items: center;
+  grid-template-columns: 2fr 1fr;
+  width: 100%
 }
 
-header > img {
-  height: 192px;
-}
 
 header form {
   position: relative;
 }
 
-header input[type="text"] {
+#input-city {
   background-color: var(--color-background);
   border: none;
   color: var(--color-light);
@@ -83,25 +91,88 @@ header input[type="text"] {
   width: 200px;
   transition: all 1s;
   padding: 3px;
+  background-image: url('./assets/search-icon.svg');
+  background-position: 2px 5px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+  padding-right: 30px;
 }
 
-header input[type="text"]:hover,
-header input[type="text"]:not(:placeholder-shown) {
+#input-city:hover,
+#input-city:not(:placeholder-shown) {
   width: 450px;
   border-bottom: solid var(--color-complementary1-light) 3px;
 }
 
-header form > button {
-  background-color: var(--color-background);
+#input-city.invalid:not(:placeholder-shown) {
+  background-color: rgb(122, 42, 42);
+  box-shadow: 1px 2px 5px 5px rgb(122, 42, 42);
+}
+#input-city.invalid:not(:placeholder-shown) ~ button {
+  background-color: rgb(122, 42, 42);
+}
+
+#input-city:focus{
+    outline: none;
+}
+
+span{
+    transition: all 1s;
+}
+
+#clear{
+    color: white;
+    background-color: var(--color-background);
+    opacity: 0;
   border: none;
   position: absolute;
   right: 0px;
-  top: 5px;
+  top: 0px;
+  font-size: 2rem;
+  transition: all 1s;
+}
+
+#clear:hover{
+    opacity: 1;
+    color: var(--color-complementary2-light);
+}
+
+#input-city:hover:not(:placeholder-shown) ~ #clear,
+#input-city:focus:not(:placeholder-shown) ~ #clear{
+    opacity: 1;
+    display: block;
+    height: 50%;
+}
+
+#input-city.invalid:not(:placeholder-shown) ~ span.invalid::after {
+  content: "Please write a valid city name";
+  color: var(--color-light);
+  position: absolute;
+  bottom: -23px;
+  width: 100%;
+  left: 0px;
+  background-color: rgb(122, 42, 42);
+  box-shadow: 1px 2px 5px 5px rgb(122, 42, 42);
+  padding: 5px;
+  text-align: center;
+}
+
+#input-city ~ span.no-city:after{
+    content: "Couldn't find that city";
+    color: var(--color-background);
+  position: absolute;
+  bottom: -23px;
+  width: 100%;
+  left: 0px;
+  background-color: var(--color-complementary1-light);
+  padding: 5px;
+  text-align: center;
 }
 
 /* toggle switch */
 
 .toggle-button-cover {
+    justify-self: left;
   display: table-cell;
   position: relative;
   width: 200px;
@@ -217,6 +288,19 @@ main {
 #current {
   grid-area: current;
   font-size: 1.5rem;
+  min-width: 300px;
+  min-height: 300px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-areas:
+    "descript descript"
+    "cityName cityName"
+    "date     date"
+    "temperat feelsLike"
+    "temperat humidity"
+    "temperat windSpeed"
+    "temperat cloudiness";
+  font-size: 1.3rem;
 }
 
 #current.loading {
@@ -265,20 +349,6 @@ main {
   box-shadow: 2px 2px 5px var(--color-complementary1-dark);
 }
 
-#current {
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(7, 1fr);
-  grid-template-areas:
-    "descript descript"
-    "cityName cityName"
-    "date     date"
-    "temperat feelsLike"
-    "temperat humidity"
-    "temperat windSpeed"
-    "temperat cloudiness";
-  font-size: 1.3rem;
-}
-
 .another-day {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 2fr;
@@ -287,6 +357,7 @@ main {
     "descript descript"
     "temperat temperat";
   min-width: 160px;
+  min-height: 160px;
 }
 
 .description {

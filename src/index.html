@@ -11,14 +11,12 @@
         <input
           type="text"
           id="input-city"
-          minlength="2"
           placeholder="City name"
+          pattern="[A-Za-z\s]*"
           required
         />
-        <button>
-          <img alt="github logo" id="github-logo"
-          src=<%=require("./assets/search-icon.svg")%> >
-        </button>
+        <span></span>
+        <button type="reset" id="clear">x</button>
       </form>
       <div class="toggle-button-cover">
         <div class="button-cover">

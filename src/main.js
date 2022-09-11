@@ -1,76 +1,14 @@
 import "./style.css";
 import PubSub from "pubsub-js";
 import { capitalize } from "lodash";
-import { fahrenheitToCelsius, celsiusToFahrenheit } from "./conversion";
-import model from "./model";
 
-const view = (function () {
-  const title = document.querySelector("h1");
-  const content = document.querySelectorAll("#current *");
-  const forecastDivs = document.querySelectorAll(".another-day");
-  const gif = document.querySelector("#gif");
-
-  function renderWeather(dataObj, fields = content) {
-    if (dataObj.name) {
-      // Add name is there is one
-      title.innerText = dataObj.name;
-    }
-    // get data values
-    fields.forEach((field) => {
-      field.classList.remove("active");
-      if (field.classList.contains("celsius")) {
-        // convert to celsius if selected
-        field.innerText = fahrenheitToCelsius(dataObj.temp);
-      } else {
-        const fieldType = field.classList.value;
-        field.innerText = dataObj[fieldType];
-      }
-      field.classList.add("active");
-    });
-  }
-
-  function renderForecast(weatherList) {
-    // Add a diferent forecast on each div at the bottom of page
-    forecastDivs.forEach((div, i) => {
-      const divContent = div.children;
-      renderWeather(weatherList[i], [...divContent]);
-    });
-  }
-
-  // Changes the temperature display from F to C, or viceversa
-  function changeUnitTo(unit = "fahrenheit") {
-    const temperatures = document.querySelectorAll(".temp, .feelsLike");
-    if (unit === "celsius") {
-      temperatures.forEach((temperature) => {
-        const previousValue = temperature.innerText;
-        temperature.innerText = fahrenheitToCelsius(previousValue);
-        temperature.classList.add("celsius");
-      });
-    } else {
-      temperatures.forEach((temperature) => {
-        const previousValue = temperature.innerText;
-        temperature.innerText = celsiusToFahrenheit(previousValue);
-        temperature.classList.remove("celsius");
-      });
-    }
-  }
-
-  function changeGIF(gifUrl) {
-    if (gif.firstChild) {
-      gif.firstChild.remove();
-    }
-    const newIMG = document.createElement("img");
-    newIMG.src = gifUrl;
-    gif.append(newIMG);
-  }
-  return { renderWeather, renderForecast, changeUnitTo, changeGIF };
-})();
+import { view, model } from "./model";
 
 const controller = (function () {
   const form = document.querySelector("form");
   const inputCity = document.querySelector("#input-city");
-  const buttonSubmit = document.querySelector("form button");
   const toggleCF = document.querySelector("header input[type=checkbox");
+
   let unitType = "fahrenheit";
 
   async function getDataFromModel(cityName, coordinates = []) {
@@ -106,9 +44,27 @@ const controller = (function () {
     view.changeUnitTo(unitType);
   }
 
-  buttonSubmit.addEventListener("click", lookupNewCity);
+  // validates city input
+  function validateInput() {
+    view.removeNoCityMessage();
+    view.removeInvalidMessage();
+    inputCity.setCustomValidity("");
+    inputCity.classList.remove("invalid");
+    inputCity.checkValidity();
+  }
+
+  // If city input is invalid, show message
+  inputCity.addEventListener("invalid", () => {
+    inputCity.classList.add("invalid");
+    inputCity.setCustomValidity("Please write a valid city name");
+    view.showInvalidMessage();
+  });
+
 
   toggleCF.addEventListener("click", changeUnitType);
+
+  // Check on input wether the city is valid
+  inputCity.addEventListener("input", validateInput);
 
   // look for city when pressing enter/return
   inputCity.onkeydown = (e) => {
@@ -121,3 +77,6 @@ const controller = (function () {
     getDataFromModel("", coordinates)
   );
 })();
+
+
+document.querySelector('#clear').addEventListener('click', (e) => console.log('si'))
