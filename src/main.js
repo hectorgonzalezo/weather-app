@@ -80,5 +80,3 @@ const controller = (function () {
   );
 })();
 
-
-document.querySelector('#clear').addEventListener('click', (e) => console.log('si'))

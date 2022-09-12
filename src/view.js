@@ -7,7 +7,8 @@ const view = (function () {
   const forecastDivs = document.querySelectorAll(".another-day");
   const gif = document.querySelector("#gif");
   const invalidDisplay = document.querySelector("span");
-  const displayers = document.querySelectorAll('#current, .another-day')
+  const displayers = document.querySelectorAll('#current, .another-day');
+  const forecastTitle = document.querySelector('#forecast-title')
 
   function renderWeather(dataObj, fields = content) {
     if (dataObj.name) {
@@ -66,8 +67,15 @@ const view = (function () {
     gif.append(newIMG);
   }
 
+  function showForecastTitle() {
+    if(forecastTitle.classList.contains('invisible')){
+        forecastTitle.classList.remove('invisible')
+    }
+  }
+
   // A displayers is one of (#current || .another-day)
   function showDisplayersLoading(){
+    
     // show or hide toggle animation
     displayers.forEach((displayer) => {
         // remove everything from field inside displayer
@@ -79,7 +87,7 @@ const view = (function () {
         displayer.classList.add('active')
     }
     );
-
+    showForecastTitle();
 }
 
   function hideDisplayersLoading(){
@@ -105,6 +113,8 @@ const view = (function () {
   function removeNoCityMessage() {
     invalidDisplay.classList.remove("no-city");
   }
+
+  
 
   PubSub.subscribe('lookup-started', showDisplayersLoading);
   PubSub.subscribe('lookup-finished', hideDisplayersLoading)

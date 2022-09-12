@@ -25,6 +25,7 @@ body #input-city:not(:placeholder-shown) {
     grid-template-areas:
       "current"
       "gif"
+      "title"
       "forecast";
   }
 
@@ -66,7 +67,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-rows: 1fr 6fr 0.5fr;
+  grid-template-rows: 100px 1fr 50px;
 }
 
 header {
@@ -75,9 +76,8 @@ header {
   justify-items: center;
   align-items: center;
   grid-template-columns: 2fr 1fr;
-  width: 100%
+  width: 100%;
 }
-
 
 header form {
   position: relative;
@@ -177,12 +177,12 @@ span{
   display: table-cell;
   position: relative;
   width: 200px;
-  height: 140px;
+  height: 100px;
   box-sizing: border-box;
 }
 
 .button-cover {
-  height: 100px;
+  height: 50px;
   margin: 20px;
   background-color: var(--color-background);
   border-radius: 4px;
@@ -278,9 +278,10 @@ span{
 main {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-row: 5fr 1fr;
+  grid-row: 3fr 0.3fr 1fr;
   grid-template-areas:
     "current gif"
+    "title title"
     "forecast forecast";
   justify-items: center;
   align-items: center;
@@ -292,7 +293,7 @@ main {
   min-width: 300px;
   min-height: 300px;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(7, 1fr);
+  grid-template-rows: 1fr 1.5fr 1fr repeat(4, 0.6fr);
   grid-template-areas:
     "descript descript"
     "cityName cityName"
@@ -317,7 +318,17 @@ main {
   width: var(--dimension);
   height: var(--dimension);
 }
+#forecast-title{
+    grid-area: title;
+    font-size: 2rem;
+    padding: 10px;
+    color: var(--color-light);
+    opacity: 1;
+}
 
+#forecast-title.invisible {
+    opacity: 0;
+}
 #forecast {
   grid-area: forecast;
   display: flex;
@@ -326,6 +337,7 @@ main {
   width: 100%;
 }
 
+
 #current,
 .another-day {
   display: grid;
@@ -333,9 +345,12 @@ main {
   justify-items: center;
   margin: 15px;
   padding: 15px;
-  gap: 10px;
+  gap: 15px;
   color: var(--color-light);
   border-radius: 2rem;
+}
+#current > p{
+    justify-self: left;
 }
 
 #current.active , 
@@ -346,8 +361,8 @@ main {
 
 #current.loading,
 .another-day.loading {
-    background: linear-gradient(to right, var(--color-light) 8%, var(--color-medium-dark) 18%, var(--color-dark) 33%);
-    background-size: 800px 104px;
+    background: linear-gradient(to bottom, var(--color-light) 16%, var(--color-medium-dark) 25%, var(--color-dark) 50%);
+    background-size: 104px 800px;
     animation-duration: 2s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
@@ -379,7 +394,7 @@ main {
 
 .name {
   grid-area: cityName;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
@@ -395,7 +410,7 @@ main {
 
 .temp {
   grid-area: temperat;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bolder;
   color: var(--color-complementary2-light);
 }
@@ -483,9 +498,9 @@ footer {
 
 @keyframes placeHolderShimmer {
     0% {
-      background-position: -800px 0
+      background-position: 0 -800px
     }
     100% {
-      background-position: 800px 0
+      background-position: 0 800px
     }
   }
