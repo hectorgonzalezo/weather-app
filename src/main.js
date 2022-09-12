@@ -7,11 +7,12 @@ import { view, model } from "./model";
 const controller = (function () {
   const form = document.querySelector("form");
   const inputCity = document.querySelector("#input-city");
-  const toggleCF = document.querySelector("header input[type=checkbox");
+  const toggleTempUnits = document.querySelector("header input[type=checkbox");
 
   let unitType = "fahrenheit";
 
   async function getDataFromModel(cityName, coordinates = []) {
+    PubSub.publish('lookup-started')
     const weather = await model
       .getWeather(cityName, coordinates)
       .then((result) => result);
@@ -32,7 +33,6 @@ const controller = (function () {
         e.preventDefault();
       const cityName = capitalize(inputCity.value);
       getDataFromModel(cityName);
-      PubSub.publish('lookup-started')
     }
   }
 
@@ -63,7 +63,7 @@ const controller = (function () {
   });
 
 
-  toggleCF.addEventListener("click", changeUnitType);
+  toggleTempUnits.addEventListener("click", changeUnitType);
 
   // Check on input wether the city is valid
   inputCity.addEventListener("input", validateInput);
