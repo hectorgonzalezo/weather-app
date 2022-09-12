@@ -21,6 +21,8 @@ const view = (function () {
       if (field.classList.contains("celsius")) {
         // convert to celsius if selected
         field.innerText = fahrenheitToCelsius(dataObj.temp);
+      } else if(field.tagName === 'IMG'){
+        field.src = `http://openweathermap.org/img/wn/${dataObj.icon}@2x.png`
       } else {
         const fieldType = field.classList.value;
         field.innerText = dataObj[fieldType];
@@ -80,6 +82,7 @@ const view = (function () {
       // remove everything from field inside displayer
       [...displayer.children].forEach((field) => {
         field.innerText = "";
+        field.src = ''
         field.classList.remove("active");
       });
       displayer.classList.add("loading");

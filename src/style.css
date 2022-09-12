@@ -296,17 +296,20 @@ main {
   font-size: 1.5rem;
   min-width: 300px;
   min-height: 300px;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1.5fr 1fr repeat(4, 0.6fr);
+  grid-template-columns: 1fr 0.9fr;
+  grid-template-rows: repeat(2, 0.7fr) repeat(4, 0.4fr);
   grid-template-areas:
-    "descript descript"
     "cityName cityName"
     "date     date"
-    "temperat feelsLike"
-    "temperat humidity"
+    "icon feelsLike"
+    "icon humidity"
     "temperat windSpeed"
     "temperat cloudiness";
   font-size: 1.3rem;
+}
+
+#current > img{
+    grid-area: icon;
 }
 
 #gif {
@@ -347,7 +350,7 @@ main {
   justify-items: center;
   margin: 15px;
   padding: 15px;
-  gap: 15px;
+  gap: 10px;
   color: var(--color-light);
   border-radius: 2rem;
 }
@@ -377,17 +380,23 @@ main {
 }
 
 .another-day {
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 2fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.5fr 1fr 0.5fr;
   grid-template-areas:
-    "date     date"
-    "descript descript"
-    "temperat temperat";
+    "date"
+    "icon"
+    "temperat";
   min-width: 160px;
   min-height: 160px;
+  gap: 0px;
 }
 
-.description {
+.another-day > img{
+    grid-area: icon;
+    width: 78px;
+}
+
+/* .description {
   grid-area: descript;
   font-size: 1.3rem;
   font-style: italic;
@@ -396,7 +405,7 @@ main {
 
 #current .description {
   font-size: 3rem;
-}
+} */
 
 .name {
   grid-area: cityName;

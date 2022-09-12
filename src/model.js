@@ -18,6 +18,7 @@ class WeatherData {
     target.windSpeed = originalJSON.wind.speed;
     target.cloudiness = originalJSON.clouds.all;
     target.name = originalJSON.name;
+    target.icon = originalJSON.weather[0].icon;
 
     return target;
   }
