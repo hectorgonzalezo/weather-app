@@ -7,8 +7,8 @@ const view = (function () {
   const forecastDivs = document.querySelectorAll(".another-day");
   const gif = document.querySelector("#gif");
   const invalidDisplay = document.querySelector("span");
-  const displayers = document.querySelectorAll('#current, .another-day');
-  const forecastTitle = document.querySelector('#forecast-title')
+  const displayers = document.querySelectorAll("#current, .another-day");
+  const forecastTitle = document.querySelector("#forecast-title");
 
   function renderWeather(dataObj, fields = content) {
     if (dataObj.name) {
@@ -37,24 +37,24 @@ const view = (function () {
     });
   }
 
+  function changeUnits(temperatures, callback){
+    temperatures.forEach((temperature) => {
+        const previousValue = temperature.innerText;
+        if (temperature.innerText !== "") {
+          temperature.innerText = callback(previousValue);
+        }
+        temperature.classList.toggle("celsius");
+      }); 
+  }
+
   // Changes the temperature display from F to C, or viceversa
   function changeUnitTo(unit = "fahrenheit") {
     const temperatures = document.querySelectorAll(".temp, .feelsLike");
     // It only works if the fields are empty
-    if (temperatures[0].innerText !== "") {
-      if (unit === "celsius") {
-        temperatures.forEach((temperature) => {
-          const previousValue = temperature.innerText;
-          temperature.innerText = fahrenheitToCelsius(previousValue);
-          temperature.classList.add("celsius");
-        });
-      } else {
-        temperatures.forEach((temperature) => {
-          const previousValue = temperature.innerText;
-          temperature.innerText = celsiusToFahrenheit(previousValue);
-          temperature.classList.remove("celsius");
-        });
-      }
+    if (unit === "celsius") {
+        changeUnits(temperatures, fahrenheitToCelsius);
+    } else {
+        changeUnits(temperatures, celsiusToFahrenheit)
     }
   }
 
@@ -68,33 +68,31 @@ const view = (function () {
   }
 
   function showForecastTitle() {
-    if(forecastTitle.classList.contains('invisible')){
-        forecastTitle.classList.remove('invisible')
+    if (forecastTitle.classList.contains("invisible")) {
+      forecastTitle.classList.remove("invisible");
     }
   }
 
   // A displayers is one of (#current || .another-day)
-  function showDisplayersLoading(){
-    
+  function showDisplayersLoading() {
     // show or hide toggle animation
     displayers.forEach((displayer) => {
-        // remove everything from field inside displayer
-        [...displayer.children].forEach((field) => {
-            field.innerText='';
-            field.classList.remove('active');
-        });
-        displayer.classList.add('loading');
-        displayer.classList.add('active')
-    }
-    );
+      // remove everything from field inside displayer
+      [...displayer.children].forEach((field) => {
+        field.innerText = "";
+        field.classList.remove("active");
+      });
+      displayer.classList.add("loading");
+      displayer.classList.add("active");
+    });
     showForecastTitle();
-}
+  }
 
-  function hideDisplayersLoading(){
+  function hideDisplayersLoading() {
     // show or hide toggle animation
     displayers.forEach((displayer) => {
-        displayer.classList.remove('loading')
-    })
+      displayer.classList.remove("loading");
+    });
   }
 
   function showInvalidMessage() {
@@ -114,10 +112,8 @@ const view = (function () {
     invalidDisplay.classList.remove("no-city");
   }
 
-  
-
-  PubSub.subscribe('lookup-started', showDisplayersLoading);
-  PubSub.subscribe('lookup-finished', hideDisplayersLoading)
+  PubSub.subscribe("lookup-started", showDisplayersLoading);
+  PubSub.subscribe("lookup-finished", hideDisplayersLoading);
   return {
     renderWeather,
     renderForecast,

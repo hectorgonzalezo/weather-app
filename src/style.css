@@ -7,14 +7,18 @@
     height: 150vh;
   }
 
-  body #input-city{
+  body #input-city {
     width: 200px;
   }
 
   body #input-city:hover,
-body #input-city:not(:placeholder-shown) {
-  width: 200px;
-}
+  body #input-city:not(:placeholder-shown) {
+    width: 200px;
+  }
+
+  body #input-city.invalid:not(:placeholder-shown) ~ span.invalid::after{
+    width: 96%
+  }
 
   body main {
     display: grid;
@@ -89,9 +93,9 @@ header form {
   color: var(--color-light);
   font-size: 2rem;
   width: 200px;
-  
+
   padding: 3px;
-  background-image: url('./assets/search-icon.svg');
+  background-image: url("./assets/search-icon.svg");
   background-position: 2px 5px;
   background-repeat: no-repeat;
   padding-left: 40px;
@@ -113,18 +117,18 @@ header form {
   background-color: rgb(122, 42, 42);
 }
 
-#input-city:focus{
-    outline: none;
+#input-city:focus {
+  outline: none;
 }
 
-span{
-    transition: all 1s;
+span {
+  transition: all 1s;
 }
 
-#clear{
-    color: white;
-    background-color: var(--color-background);
-    opacity: 0;
+#clear {
+  color: white;
+  background-color: var(--color-background);
+  opacity: 0;
   border: none;
   position: absolute;
   right: 0px;
@@ -132,17 +136,17 @@ span{
   font-size: 2rem;
 }
 
-#clear:hover{
-    opacity: 1;
-    color: var(--color-complementary2-light);
-    transition: all 1s;
+#clear:hover {
+  opacity: 1;
+  color: var(--color-complementary2-light);
+  transition: all 1s;
 }
 
 #input-city:hover:not(:placeholder-shown) ~ #clear,
-#input-city:focus:not(:placeholder-shown) ~ #clear{
-    opacity: 1;
-    display: block;
-    height: 50%;
+#input-city:focus:not(:placeholder-shown) ~ #clear {
+  opacity: 1;
+  display: block;
+  height: 50%;
 }
 
 #input-city.invalid:not(:placeholder-shown) ~ span.invalid::after {
@@ -150,7 +154,7 @@ span{
   color: var(--color-light);
   position: absolute;
   bottom: -23px;
-  width: 100%;
+  width: 98%;
   left: 0px;
   background-color: rgb(122, 42, 42);
   box-shadow: 1px 2px 5px 5px rgb(122, 42, 42);
@@ -158,9 +162,9 @@ span{
   text-align: center;
 }
 
-#input-city ~ span.no-city:after{
-    content: "Couldn't find that city";
-    color: var(--color-background);
+#input-city ~ span.no-city:after {
+  content: "Couldn't find that city";
+  color: var(--color-background);
   position: absolute;
   bottom: -23px;
   width: 100%;
@@ -173,7 +177,7 @@ span{
 /* toggle switch */
 
 .toggle-button-cover {
-    justify-self: left;
+  justify-self: left;
   display: table-cell;
   position: relative;
   width: 200px;
@@ -305,7 +309,6 @@ main {
   font-size: 1.3rem;
 }
 
-
 #gif {
   grid-area: gif;
   display: flex;
@@ -318,16 +321,16 @@ main {
   width: var(--dimension);
   height: var(--dimension);
 }
-#forecast-title{
-    grid-area: title;
-    font-size: 2rem;
-    padding: 10px;
-    color: var(--color-light);
-    opacity: 1;
+#forecast-title {
+  grid-area: title;
+  font-size: 2rem;
+  padding: 10px;
+  color: var(--color-light);
+  opacity: 1;
 }
 
 #forecast-title.invisible {
-    opacity: 0;
+  opacity: 0;
 }
 #forecast {
   grid-area: forecast;
@@ -336,7 +339,6 @@ main {
   justify-content: space-around;
   width: 100%;
 }
-
 
 #current,
 .another-day {
@@ -349,25 +351,29 @@ main {
   color: var(--color-light);
   border-radius: 2rem;
 }
-#current > p{
-    justify-self: left;
+#current > p {
+  justify-self: left;
 }
 
-#current.active , 
-.another-day.active{
+#current.active,
+.another-day.active {
   background-color: var(--color-medium-dark);
 }
 
-
 #current.loading,
 .another-day.loading {
-    background: linear-gradient(to bottom, var(--color-light) 16%, var(--color-medium-dark) 25%, var(--color-dark) 50%);
-    background-size: 104px 800px;
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
+  background: linear-gradient(
+    to bottom,
+    var(--color-light) 16%,
+    var(--color-medium-dark) 25%,
+    var(--color-dark) 50%
+  );
+  background-size: 104px 800px;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
 }
 
 .another-day {
@@ -495,12 +501,11 @@ footer {
   height: 30px;
 }
 
-
 @keyframes placeHolderShimmer {
-    0% {
-      background-position: 0 -800px
-    }
-    100% {
-      background-position: 0 800px
-    }
+  0% {
+    background-position: 0 -800px;
   }
+  100% {
+    background-position: 0 800px;
+  }
+}

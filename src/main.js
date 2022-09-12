@@ -4,7 +4,7 @@ import { capitalize } from "lodash";
 
 import { view, model } from "./model";
 
-const controller = (function () {
+(function controller() {
   const form = document.querySelector("form");
   const inputCity = document.querySelector("#input-city");
   const toggleTempUnits = document.querySelector("header input[type=checkbox");
@@ -12,7 +12,8 @@ const controller = (function () {
   let unitType = "fahrenheit";
 
   async function getDataFromModel(cityName, coordinates = []) {
-    PubSub.publish('lookup-started')
+    PubSub.publish("lookup-started");
+
     const weather = await model
       .getWeather(cityName, coordinates)
       .then((result) => result);
@@ -24,13 +25,13 @@ const controller = (function () {
     view.renderWeather(weather);
     view.renderForecast(forecast);
     view.changeGIF(newGIF);
-    PubSub.publish('lookup-finished');
+    PubSub.publish("lookup-finished");
   }
 
   // After pressing submit, look weather and forecast of new city
   function lookupNewCity(e) {
     if (form.checkValidity()) {
-        e.preventDefault();
+      e.preventDefault();
       const cityName = capitalize(inputCity.value);
       getDataFromModel(cityName);
     }
@@ -62,7 +63,6 @@ const controller = (function () {
     view.showInvalidMessage();
   });
 
-
   toggleTempUnits.addEventListener("click", changeUnitType);
 
   // Check on input wether the city is valid
@@ -79,4 +79,3 @@ const controller = (function () {
     getDataFromModel("", coordinates)
   );
 })();
-

@@ -42,6 +42,48 @@ class WeatherData {
   }
 }
 
+class OpenWeatherWrapper {
+
+    constructor(cityName, type){
+        this.cityName = cityName;
+        this.type = type;
+    }
+
+    // This is the factory method.
+    // Selects a class depending on wether there were coordinates in the original call
+    static getData(cityName, type, coords){
+        if (coords.length !== 2){
+            return new OpenWeatherWrapper(cityName,type).getData()
+        } 
+        return new OpenWeatherWrapperCoord(cityName, type, coords).getData();
+
+    }
+
+    async getData(){
+        const request =await fetch(
+            `https://api.openweathermap.org/data/2.5/${this.type}?q=${this.cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
+            { mode: "cors" }
+          );
+        return request
+    }
+}
+
+// This class uses coordinates instead of cityName
+class OpenWeatherWrapperCoord extends OpenWeatherWrapper{
+    constructor(cityName, type, coords){
+        super(cityName, type);
+        [this.latitude, this.longitude] = coords;
+    }
+
+    async getData(){
+        const request =await fetch(
+            `https://api.openweathermap.org/data/2.5/${this.type}?lat=${this.latitude}&lon=${this.longitude}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
+            { mode: "cors" }
+          );
+        return request
+    }
+}
+
 const model = (function model() {
   // You can use cityName or an array of coordinates [latitude, longitude] to search
   async function callWeatherAPI(
@@ -49,27 +91,11 @@ const model = (function model() {
     type = "weather",
     coords = []
   ) {
-    let request;
-    if (coords.length !== 2) {
-      // If there are no coordinates, look for cityName
-      request = await fetch(
-        `https://api.openweathermap.org/data/2.5/${type}?q=${cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
-        { mode: "cors" }
-      );
-    } else {
-      // Otherwise, look for coordinates
-      const latitude = coords[0];
-      const longitude = coords[1];
-      request = await fetch(
-        `https://api.openweathermap.org/data/2.5/${type}?lat=${latitude}&lon=${longitude}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
-        { mode: "cors" }
-      );
-    }
+    const request = await OpenWeatherWrapper.getData(cityName, type, coords)
     // if the request was successfull, return the data
     // otherwise display error message
     if (request.ok) {
       const data = await request.json();
-      console.log(data);
       return data;
     }
 
