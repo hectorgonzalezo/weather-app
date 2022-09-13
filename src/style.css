@@ -2,53 +2,6 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;600&display=swap");
 
-@media (max-width: 850px) {
-  :root body {
-    height: 150vh;
-  }
-
-  body #input-city {
-    width: 200px;
-  }
-
-  body #input-city:hover,
-  body #input-city:not(:placeholder-shown) {
-    width: 200px;
-  }
-
-  body #input-city.invalid:not(:placeholder-shown) ~ span.invalid::after{
-    width: 96%
-  }
-
-  body main {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-row: 2fr 0.2fr 1fr;
-    justify-items: center;
-    align-items: center;
-    grid-template-areas:
-      "current"
-      "gif"
-      "title"
-      "forecast";
-  }
-
-  #current {
-    width: auto;
-  }
-
-  body #forecast {
-    grid-area: forecast;
-    flex-direction: column;
-    align-items: center;
-    width: auto;
-  }
-
-  body .another-day {
-    width: 70%;
-  }
-}
-
 :root {
   --color-background: #27272a;
   --color-light: #f4f4f5;
@@ -293,11 +246,10 @@ main {
 
 #current {
   grid-area: current;
-  font-size: 1.5rem;
   min-width: 300px;
   min-height: 300px;
   grid-template-columns: 1fr 0.9fr;
-  grid-template-rows: repeat(2, 0.7fr) repeat(4, 0.4fr);
+  grid-template-rows: repeat(2, 0.6fr) repeat(4, 0.4fr);
   grid-template-areas:
     "cityName cityName"
     "date     date"
@@ -305,7 +257,7 @@ main {
     "icon humidity"
     "temperat windSpeed"
     "temperat cloudiness";
-  font-size: 1.3rem;
+  font-size: min(3vw, 1.1rem);
 }
 
 #current > img{
@@ -326,8 +278,8 @@ main {
 }
 #forecast-title {
   grid-area: title;
-  font-size: 2rem;
-  padding: 10px;
+  font-size: calc(1rem + 1vw);
+  padding: 20px 0px 0px 0px;
   color: var(--color-light);
   opacity: 1;
 }
@@ -339,7 +291,7 @@ main {
   grid-area: forecast;
   display: flex;
   align-items: stretch;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 100%;
 }
 
@@ -396,20 +348,9 @@ main {
     width: 78px;
 }
 
-/* .description {
-  grid-area: descript;
-  font-size: 1.3rem;
-  font-style: italic;
-  color: var(--color-complementary1-light);
-}
-
-#current .description {
-  font-size: 3rem;
-} */
-
 .name {
   grid-area: cityName;
-  font-size: 2.5rem;
+  font-size: min(5vw, 2.2rem);
   font-weight: bold;
 }
 
@@ -420,7 +361,7 @@ main {
 }
 
 #current .day {
-  font-size: 2.2rem;
+  font-size: min(6vw, 2rem);
 }
 
 .temp {
@@ -441,7 +382,7 @@ main {
 }
 
 #current .temp {
-  font-size: 4rem;
+  font-size: min(10vw, 4rem);
 }
 
 .feelsLike {
@@ -487,9 +428,6 @@ main {
   content: "%";
 }
 
-.another-day {
-  font-size: 1rem;
-}
 
 footer {
   margin-top: auto;
@@ -509,6 +447,51 @@ footer {
 #github-logo {
   height: 30px;
 }
+
+
+@media only screen and (max-width: 850px) {
+
+    #input-city {
+      width: 200px;
+    }
+  
+    #input-city:hover,
+    #input-city:not(:placeholder-shown) {
+      width: 200px;
+    }
+  
+    #input-city.invalid:not(:placeholder-shown) ~ span.invalid::after{
+      width: 96%
+    }
+  
+    main {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-row: 2fr 0.2fr 1fr;
+      justify-items: center;
+      align-items: center;
+      grid-template-areas:
+        "current"
+        "gif"
+        "title"
+        "forecast";
+    }
+  
+    #current {
+      width: auto;
+    }
+  
+    #forecast {
+      grid-area: forecast;
+      flex-direction: column;
+      align-items: center;
+      width: auto;
+    }
+  
+    .another-day {
+      width: 70%;
+    }
+  }
 
 @keyframes placeHolderShimmer {
   0% {

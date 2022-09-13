@@ -22,10 +22,10 @@ import { view, model } from "./model";
       .then((result) => result);
     const newGIF = await model.getGIF(weather.description);
 
+    PubSub.publish("lookup-finished");
     view.renderWeather(weather);
     view.renderForecast(forecast);
     view.changeGIF(newGIF);
-    PubSub.publish("lookup-finished");
   }
 
   // After pressing submit, look weather and forecast of new city
