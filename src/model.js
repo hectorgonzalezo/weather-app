@@ -1,6 +1,6 @@
 import "./userLocation";
 import { format } from "date-fns";
-import { round } from "lodash";
+import { round, capitalize } from "lodash";
 import view from "./view";
 
 class WeatherData {
@@ -45,6 +45,7 @@ class WeatherData {
 
 class OpenWeatherWrapper {
 
+
     constructor(cityName, type){
         this.cityName = cityName;
         this.type = type;
@@ -52,12 +53,18 @@ class OpenWeatherWrapper {
 
     // This is the factory method.
     // Selects a class depending on wether there were coordinates in the original call
-    static getData(cityName, type, coords){
-        if (coords.length !== 2){
-            return new OpenWeatherWrapper(cityName,type).getData()
-        } 
-        return new OpenWeatherWrapperCoord(cityName, type, coords).getData();
+    static getData(cityName, type, coords = ''){
+        if (coords.length !== 2) {
+          const data = new OpenWeatherWrapper(cityName, type).getData();
+          return data;
+        }
 
+        const data = new OpenWeatherWrapperCoord(
+          cityName,
+          type,
+          coords
+        ).getData();
+        return data;
     }
 
     async getData(){
@@ -65,6 +72,7 @@ class OpenWeatherWrapper {
             `https://api.openweathermap.org/data/2.5/${this.type}?q=${this.cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
             { mode: "cors" }
           );
+        console.log(request)
         return request
     }
 }
@@ -86,6 +94,11 @@ class OpenWeatherWrapperCoord extends OpenWeatherWrapper{
 }
 
 const model = (function model() {
+
+    // Add memoization
+    // prevents API calls if data is stored in memory
+    const cache = {}
+
   // You can use cityName or an array of coordinates [latitude, longitude] to search
   async function callWeatherAPI(
     cityName = "London",
@@ -107,22 +120,31 @@ const model = (function model() {
 
   // Extracts data from getWeather() for every argument
   async function getWeather(cityName, coords) {
+    if(cache[`${capitalize(cityName)}Weather`]){
+        return cache[`${capitalize(cityName)}Weather`]
+    }
+
     // get all a selection of values and store them in dataObject
     const dataObject = await callWeatherAPI(cityName, "weather", coords).then(
       (data) => WeatherData.formatWeather(data)
     );
-
+    // Add it to cache
+    cache[`${capitalize(cityName)}Weather`] = dataObject
     return dataObject;
   }
 
   // Gets forecast for the next numDays days
   async function getForecast(cityName, coords) {
+    if(cache[`${cityName}Forecast`]){
+        return cache[`${cityName}Forecast`]
+    }
+
     const rawDataList = await callWeatherAPI(cityName, "forecast", coords).then(
       (data) => data.list
     );
     // Extract selected data
     const dataList = WeatherData.formatForecast(rawDataList);
-
+    cache[`${cityName}Forecast`] = dataList;
     return dataList;
   }
 
