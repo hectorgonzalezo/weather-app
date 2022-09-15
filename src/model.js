@@ -23,9 +23,9 @@ class WeatherData {
     return target;
   }
 
-  static formatForecast(originalJSONList) {
+  static async formatForecast(originalJSONList) {
     // Make a set of days, so that they wont be repeated
-    const fiveDaysList = originalJSONList.filter((data) => {
+    const fiveDaysList = await originalJSONList.filter((data) => {
       const dataDay = this.unixToDate(data.dt);
       // Filter if it's another instance of today's weather
       // and get only the midday forecast for each day at 3 PM.
@@ -33,7 +33,7 @@ class WeatherData {
         dataDay.getDay() !== this.today.getDay() && dataDay.getHours() === 20
       );
     });
-    const result = fiveDaysList.map((dayData) => this.formatWeather(dayData));
+    const result = await fiveDaysList.map((dayData) => this.formatWeather(dayData));
     return result;
   }
 
@@ -120,7 +120,8 @@ const model = (function model() {
   // Extracts data from getWeather() for every argument
   async function getWeather(cityName, coords) {
     if(cache[`${capitalize(cityName)}Weather`]){
-        return cache[`${capitalize(cityName)}Weather`]
+        const dataObject = await cache[`${capitalize(cityName)}Weather`]
+        return dataObject
     }
 
     // get all a selection of values and store them in dataObject
@@ -139,10 +140,15 @@ const model = (function model() {
     }
 
     const rawDataList = await callWeatherAPI(cityName, "forecast", coords).then(
-      (data) => data.list
+      (data) => { console.log(data) 
+        return data.list
+      },
+      (error) => {
+        console.log(error)
+      }
     );
     // Extract selected data
-    const dataList = WeatherData.formatForecast(rawDataList);
+    const dataList = await WeatherData.formatForecast(rawDataList);
     cache[`${cityName}Forecast`] = dataList;
     return dataList;
   }

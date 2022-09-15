@@ -11,6 +11,7 @@ const view = (function () {
   const forecastTitle = document.querySelector("#forecast-title");
 
   function renderWeather(dataObj, fields = content) {
+
     if (dataObj.name) {
       // Add name is there is one
       title.innerText = dataObj.name;
@@ -24,11 +25,15 @@ const view = (function () {
       } else if(field.tagName === 'IMG'){
         field.src = `https://openweathermap.org/img/wn/${dataObj.icon}@2x.png`
       } else {
+        
         const fieldType = field.classList.value;
         field.innerText = dataObj[fieldType];
       }
       field.classList.add("active");
     });
+
+    fields[0].parentElement.classList.remove('loading')
+    console.log('remove')
   }
 
   function renderForecast(weatherList) {
@@ -76,7 +81,7 @@ const view = (function () {
   }
 
   // A displayers is one of (#current || .another-day)
-  function showDisplayersLoading() {
+  function showDisplayersLoading(msg) {
     // show or hide toggle animation
     displayers.forEach((displayer) => {
       // remove everything from field inside displayer
@@ -91,12 +96,6 @@ const view = (function () {
     showForecastTitle();
   }
 
-  function hideDisplayersLoading() {
-    // show or hide toggle animation
-    displayers.forEach((displayer) => {
-      displayer.classList.remove("loading");
-    });
-  }
 
   function showInvalidMessage() {
     invalidDisplay.classList.add("invalid");
@@ -115,8 +114,7 @@ const view = (function () {
     invalidDisplay.classList.remove("no-city");
   }
 
-  PubSub.subscribe("lookup-started", showDisplayersLoading);
-  PubSub.subscribe("lookup-finished", hideDisplayersLoading);
+
   return {
     renderWeather,
     renderForecast,
@@ -126,6 +124,7 @@ const view = (function () {
     removeInvalidMessage,
     showNoCityMessage,
     removeNoCityMessage,
+    showDisplayersLoading
   };
 })();
 

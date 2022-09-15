@@ -12,20 +12,17 @@ import { view, model } from "./model";
   let unitType = "fahrenheit";
 
   async function getDataFromModel(cityName, coordinates = []) {
-    PubSub.publish("lookup-started");
+    view.showDisplayersLoading();
 
-    const weather = await model
-      .getWeather(cityName, coordinates)
-      .then((result) => result);
-    const currentForecast = await model
-      .getForecast(cityName, coordinates)
-      .then((result) => result);
-    const newGIF = await model.getGIF(weather.description);
-
-    PubSub.publish("lookup-finished");
+    const weather = await model.getWeather(cityName, coordinates)
     view.renderWeather(weather);
+
+    const currentForecast = await model.getForecast(cityName, coordinates);
     view.renderForecast(currentForecast);
+    
+    const newGIF = await model.getGIF(weather.description);
     view.changeGIF(newGIF);
+
   }
 
   // After pressing submit, look weather and forecast of new city
