@@ -33,7 +33,6 @@ const view = (function () {
     });
 
     fields[0].parentElement.classList.remove('loading')
-    console.log('remove')
   }
 
   function renderForecast(weatherList) {

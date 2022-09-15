@@ -30,7 +30,7 @@ class WeatherData {
       // Filter if it's another instance of today's weather
       // and get only the midday forecast for each day at 3 PM.
       return (
-        dataDay.getDay() !== this.today.getDay() && dataDay.getHours() === 20
+        (dataDay.getDay() !== this.today.getDay()) && (dataDay.getHours() >= 17) && (dataDay.getHours() <= 21)
       );
     });
     const result = await fiveDaysList.map((dayData) => this.formatWeather(dayData));
@@ -139,14 +139,7 @@ const model = (function model() {
         return cache[`${cityName}Forecast`]
     }
 
-    const rawDataList = await callWeatherAPI(cityName, "forecast", coords).then(
-      (data) => { console.log(data) 
-        return data.list
-      },
-      (error) => {
-        console.log(error)
-      }
-    );
+    const rawDataList = await callWeatherAPI(cityName, "forecast", coords).then((data) => data.list);
     // Extract selected data
     const dataList = await WeatherData.formatForecast(rawDataList);
     cache[`${cityName}Forecast`] = dataList;
