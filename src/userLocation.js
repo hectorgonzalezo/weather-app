@@ -1,4 +1,5 @@
 import PubSub from "pubsub-js";
+import storage from './storage';
 
 function getUserLocation() {
   if (navigator.geolocation) {
@@ -10,10 +11,12 @@ function getUserLocation() {
           locationData.coords.latitude,
           locationData.coords.longitude,
         ];
+        storage.add(coordinates)
         PubSub.publish("location-data-acquired", coordinates);
       }
     );
   }
 }
 // On window load, get user location
-window.addEventListener("load", getUserLocation);
+PubSub.subscribe('no-data-found', getUserLocation);
+window.addEventListener("load", storage.startStorage)

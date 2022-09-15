@@ -72,7 +72,6 @@ class OpenWeatherWrapper {
             `https://api.openweathermap.org/data/2.5/${this.type}?q=${this.cityName}&units=imperial&appid=e2802a8fb9f851e53d09fe4eb9b16d38`,
             { mode: "cors" }
           );
-        console.log(request)
         return request
     }
 }
