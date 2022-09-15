@@ -32,7 +32,6 @@ const view = (function () {
   }
 
   function renderForecast(weatherList) {
-    console.log(weatherList)
     // Add a diferent forecast on each div at the bottom of page
     forecastDivs.forEach((div, i) => {
       const divContent = div.children;

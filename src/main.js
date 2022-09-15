@@ -24,7 +24,6 @@ import { view, model } from "./model";
 
     PubSub.publish("lookup-finished");
     view.renderWeather(weather);
-    console.log(currentForecast)
     view.renderForecast(currentForecast);
     view.changeGIF(newGIF);
   }
