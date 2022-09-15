@@ -17,14 +17,15 @@ import { view, model } from "./model";
     const weather = await model
       .getWeather(cityName, coordinates)
       .then((result) => result);
-    const forecast = await model
+    const currentForecast = await model
       .getForecast(cityName, coordinates)
       .then((result) => result);
     const newGIF = await model.getGIF(weather.description);
 
     PubSub.publish("lookup-finished");
     view.renderWeather(weather);
-    view.renderForecast(forecast);
+    console.log(currentForecast)
+    view.renderForecast(currentForecast);
     view.changeGIF(newGIF);
   }
 

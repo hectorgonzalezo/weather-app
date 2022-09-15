@@ -22,7 +22,7 @@ const view = (function () {
         // convert to celsius if selected
         field.innerText = fahrenheitToCelsius(dataObj.temp);
       } else if(field.tagName === 'IMG'){
-        field.src = `http://openweathermap.org/img/wn/${dataObj.icon}@2x.png`
+        field.src = `https://openweathermap.org/img/wn/${dataObj.icon}@2x.png`
       } else {
         const fieldType = field.classList.value;
         field.innerText = dataObj[fieldType];
@@ -32,6 +32,7 @@ const view = (function () {
   }
 
   function renderForecast(weatherList) {
+    console.log(weatherList)
     // Add a diferent forecast on each div at the bottom of page
     forecastDivs.forEach((div, i) => {
       const divContent = div.children;
