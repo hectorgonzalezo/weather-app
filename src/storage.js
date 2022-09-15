@@ -31,13 +31,13 @@ const storage = (function () {
   }
 
   const getAll = function getAll() {
-      return JSON.parse(localStorage.getItem('preferences'))
+      return JSON.parse(localStorage.getItem('preferences'));
   };
 
   function startStorage() {
     if (storageAvailable("localStorage")) {
       // if there's previous data on storage, display it
-      if (localStorage.length > 0) {
+      if (localStorage.getItem('preferences') !== null) {
         const storedData = getAll()[0];
         PubSub.publish("location-data-acquired", storedData);
       } else {
