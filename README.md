@@ -2,7 +2,7 @@
 
 by Héctor Gonzalez Orozco
 
-Build as part of [The Odin Project](https://www.theodinproject.com/) curriculum.
+Built as part of [The Odin Project](https://www.theodinproject.com/) curriculum.
 
 This project involves using [OpenWeather](https://openweathermap.org)'s API to get weather data from a city chosen by the user, and displaying it on the webpage.
 
